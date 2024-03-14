@@ -9,3 +9,9 @@ export * from './middlewares/current_user';
 export * from './middlewares/error_handler';
 export * from './middlewares/require_auth';
 export * from './middlewares/validation_middleware';
+
+export * from './events/base_listener';
+export * from './events/base_publisher';
+export * from './events/subjects';
+export * from './events/ticket_created_event';
+export * from './events/ticket_updated_events';
