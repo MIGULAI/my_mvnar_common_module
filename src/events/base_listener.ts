@@ -12,7 +12,7 @@ export abstract class Listener<T extends Event> {
   private client: Stan;
   protected ackWait = 5 * 1000;
 
-  abstract onMessage(data: T['data'], msg: Message): void;
+  abstract onMessage(data: T['data'], msg: Message): Promise<void>;
 
 
   constructor(client: Stan) {
@@ -34,12 +34,12 @@ export abstract class Listener<T extends Event> {
       this.subscriptionOptions()
     );
 
-    subscription.on('message', (msg: Message) => {
+    subscription.on('message', async (msg: Message) => {
       console.log(`Message received: ${this.subject} / ${this.queueGroupName}`);
 
       const parsedData = this.parseMessage(msg);
       try {
-        this.onMessage(parsedData, msg);
+        await this.onMessage(parsedData, msg);
       } catch (error) {
         console.log('Error during listening :', error);
       }
